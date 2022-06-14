@@ -8,6 +8,6 @@ import org.aeonbits.owner.Config;
         "classpath:properties/remoteurl.properties"})
 
 public interface RemoteURLserver extends Config {
-    String loginRemoteurl();
-    String passwordRemoteurl();
+    String loginremoteurl();
+    String passwordremoteurl();
 }

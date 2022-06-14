@@ -27,7 +27,7 @@ public class TestBase {
         RestAssured.baseURI = linkbaseConfig.baseURI();
 
         RemoteURLserver remoteURL = ConfigFactory.create(RemoteURLserver.class);
-        Configuration.remote = "https://" + remoteURL.loginRemoteurl() + ":" + remoteURL.passwordRemoteurl() + "@" +
+        Configuration.remote = "https://" + remoteURL.loginremoteurl() + ":" + remoteURL.passwordremoteurl() + "@" +
                 System.getProperty("server_selenoid", "selenoid.autotests.cloud/wd/hub");
         Configuration.browserSize = System.getProperty("browser_size", "1920x1080");
 

@@ -11,7 +11,7 @@ import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class ReqresinTests {
+public class ReqresTest {
 
     public static final String getSingleResourseAPI = "/unknown/2";
     public static final String postRegisterSuccessfulAPI = "/register";
