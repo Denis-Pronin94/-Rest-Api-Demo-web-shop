@@ -5,7 +5,7 @@ import io.qameta.allure.restassured.AllureRestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Cookie;
-import owner.DataForWebShop;
+import owner.DataWebShop;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 @Tag("demowebshop")
 public class DemowebshopTests extends TestBase {
 
-    static DataForWebShop dataUserwebshop = ConfigFactory.create(DataForWebShop.class);
+    static DataWebShop dataUserwebshop = ConfigFactory.create(DataWebShop.class);
     static String login = dataUserwebshop.login(),
             password = dataUserwebshop.password(),
             authCookieName = dataUserwebshop.authCookieName();
