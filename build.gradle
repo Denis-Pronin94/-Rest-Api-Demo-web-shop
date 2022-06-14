@@ -7,10 +7,14 @@ repositories {
     mavenCentral()
 }
 
-def allureVersion = "2.17.3",
-    selenideVersion = "6.4.0",
-    junitVersion = "5.8.2",
-    slf4jVersion = "1.7.32"
+def junitVersion = "5.8.2",
+    slfVersion = "1.7.36",
+    allureVersion = "2.17.3",
+    restAssuredVersion = "4.5.1",
+    lombokVersion = "1.18.10",
+    selenideVersion = "6.5.0",
+    fakerVersion = "1.0.2"
+
 
 allure {
     report {
@@ -29,37 +33,31 @@ allure {
 
 dependencies {
     testImplementation(
-            "com.codeborne:selenide:6.5.2",
             "io.qameta.allure:allure-selenide:$allureVersion",
-            "io.rest-assured:rest-assured:5.1.0",
-            "org.aeonbits.owner:owner:1.0.12",
             "io.qameta.allure:allure-rest-assured:$allureVersion",
-            "org.junit.jupiter:junit-jupiter:5.8.2",
-            "org.slf4j:slf4j-simple:1.7.36"
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "org.slf4j:slf4j-simple:$slfVersion",
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "org.projectlombok:lombok:$lombokVersion",
+            'org.aeonbits.owner:owner:1.0.4',
+            'com.google.code.gson:gson:2.8.9',
+            'com.github.javafaker:javafaker:1.0.2',
+            "com.codeborne:selenide:$selenideVersion",
+            "com.github.javafaker:javafaker:$fakerVersion"
     )
 }
 
 tasks.withType(Test) {
-    useJUnitPlatform()
-}
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-tasks.withType(Test) {
     systemProperties(System.getProperties())
     useJUnitPlatform()
 
-    testLogging {
-        lifecycle {
-            events "started", "skipped", "failed", "standard_error", "standard_out"
-            exceptionFormat "short"
-        }
-    }
-}
-task demowebshop_tests (type: Test) {
-    useJUnitPlatform{
-        includeTags "demowebshop"
+    if (System.getProperty("threads") != null) {
+        systemProperties += [
+                'junit.jupiter.execution.parallel.enabled'                 : true,
+                'junit.jupiter.execution.parallel.mode.default'            : 'concurrent',
+                'junit.jupiter.execution.parallel.mode.classes.default'    : 'concurrent',
+                'junit.jupiter.execution.parallel.config.strategy'         : 'fixed',
+                'junit.jupiter.execution.parallel.config.fixed.parallelism': System.getProperty("threads").toInteger()
+        ]
     }
 }
