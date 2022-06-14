@@ -1,5 +1,7 @@
 package tests;
 
+import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -8,12 +10,22 @@ import static org.hamcrest.Matchers.is;
 
 public class ReqresTest {
 
+    public static final String getSingleUser = "users?page=2";
+    public static final String postRegister = "/register";
+    public static final String deleteApi = "/users/2";
+    public static final String putUpdateApi = "/users/2";
+
+    @BeforeAll
+    static void setUp() {
+        RestAssured.baseURI = "https://reqres.in/api/";
+    }
+
     @Test
     void  listUser() {
 
         given()
                 .when()
-                .get("https://reqres.in/api/users?page=2")
+                .get(getSingleUser)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -31,7 +43,7 @@ public class ReqresTest {
                 .body(body)
                 .contentType(JSON)
                 .when()
-                .post("https://reqres.in/api/register")
+                .post(postRegister)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -47,7 +59,7 @@ public class ReqresTest {
                 .body(body)
                 .contentType(JSON)
                 .when()
-                .post("https://reqres.in/api/register")
+                .post(postRegister)
                 .then()
                 .log().all()
                 .statusCode(400)
@@ -59,7 +71,7 @@ public class ReqresTest {
 
         given()
                 .when()
-                .delete("https://reqres.in/api/users/2")
+                .delete(deleteApi)
                 .then()
                 .log().all()
                 .statusCode(204);
@@ -73,7 +85,7 @@ public class ReqresTest {
                 .body(body)
                 .contentType(JSON)
                 .when()
-                .post("https://reqres.in/api/users")
+                .post(putUpdateApi)
                 .then()
                 .log().all()
                 .statusCode(201)
