@@ -22,7 +22,7 @@ public class WebShopTests extends TestBase {
             authCookieName = dataUserwebshop.authCookieName();
 
     @Test
-    @DisplayName("Successful authorization to some demowebshop (UI)")
+    @DisplayName("Authorization demowebshop (UI)")
     void loginTest() {
         step("Open login page", () ->
                 open("/login"));
