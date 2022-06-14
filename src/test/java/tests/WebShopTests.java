@@ -1,16 +1,10 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import helpers.Attach;
 import io.qameta.allure.restassured.AllureRestAssured;
-import io.qameta.allure.selenide.AllureSelenide;
-import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import owner.DataWebShop;
 
 import static com.codeborne.selenide.Condition.text;
@@ -18,12 +12,13 @@ import static com.codeborne.selenide.Selenide.*;
 import static helpers.CustomApiListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 
 @Tag("demowebshop")
 public class WebShopTests extends TestBase {
 
+    //    static String login = "qaguru@qa.guru",
+//            password = "qaguru@qa.guru1",
+//            authCookieName = "NOPCOMMERCE.AUTH";
     static DataWebShop dataUserwebshop = ConfigFactory.create(DataWebShop.class);
     static String login = dataUserwebshop.login(),
             password = dataUserwebshop.password(),

@@ -113,6 +113,5 @@ public class ReqresinTests {
                 .then()
                 .log().status()
                 .statusCode(204);
-
     }
 }
