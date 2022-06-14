@@ -1,117 +1,86 @@
 package tests;
 
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static helpers.CustomApiListener.withCustomTemplates;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 
 public class ReqresTest {
 
-    public static final String getSingleResourseAPI = "/unknown/2";
-    public static final String postRegisterSuccessfulAPI = "/register";
-    public static final String putUpdateApi = "/users/2";
-    public static final String patchUpdateApi = "/users/2";
-    public static final String deleteApi = "/users/2";
-
-    @BeforeAll
-    static void setUp() {
-        RestAssured.baseURI = "https://reqres.in/api/";
-    }
-
     @Test
-    @DisplayName("Test with GET method")
-    void checkApiEndpoint1() {
+    void  listUser() {
 
         given()
-                .filter(withCustomTemplates())
-                .log().uri()
                 .when()
-                .get(getSingleResourseAPI)
+                .get("https://reqres.in/api/users?page=2")
                 .then()
-                .log().status()
+                .log().all()
                 .statusCode(200)
-                .body("data.name", is("fuchsia rose"))
-                .body("support.url", is("https://reqres.in/#support-heading"));
+                .body("page", is(2))
+                .body("per_page", is(6))
+                .body("total", is(12))
+                .body("total_pages", is(2));
     }
 
+
+
     @Test
-    @DisplayName("Test with POST method")
-    void checkApiEndpoint2() {
+    void  registerUserTest() {
         String body = "{ \"email\": \"eve.holt@reqres.in\", \"password\": \"pistol\" }";
 
         given()
-                .filter(withCustomTemplates())
-                .log().uri()
-                .when()
                 .body(body)
                 .contentType(JSON)
-                .post(postRegisterSuccessfulAPI)
+                .when()
+                .post("https://reqres.in/api/register")
                 .then()
-                .log().status()
+                .log().all()
                 .statusCode(200)
                 .body("id", is(4))
-                .body("token", is(notNullValue()));
+                .body("token", is("QpwL5tke4Pnpja7X4"));
     }
 
     @Test
-    @DisplayName("Test with PUT method")
-    void checkApiEndpoint3() {
-        String body = "{ \"name\": \"morpheus\", \"job\": \"zion resident\" }";
+    void  missingRegisterUserTest() {
+        String body = "{ \"email\": \"sydney@fife\" }";
 
         given()
-                .filter(withCustomTemplates())
-                .log().uri()
-                .when()
                 .body(body)
                 .contentType(JSON)
-                .put(putUpdateApi)
+                .when()
+                .post("https://reqres.in/api/register")
                 .then()
-                .log().status()
-                .statusCode(200)
-                .body("name", is("morpheus"))
-                .body("job", is("zion resident"))
-                .body("updatedAt", is(notNullValue()));
-
+                .log().all()
+                .statusCode(400)
+                .body("error", is("Missing password"));
     }
 
     @Test
-    @DisplayName("Test with PATCH method")
-    void checkApiEndpoint4() {
-        String body = "{ \"name\": \"morpheus\", \"job\": \"zion resident\" }";
+    void  deleteUserTest() {
 
         given()
-                .filter(withCustomTemplates())
-                .log().uri()
                 .when()
-                .body(body)
-                .contentType(JSON)
-                .patch(patchUpdateApi)
+                .delete("https://reqres.in/api/users/2")
                 .then()
-                .log().status()
-                .statusCode(200)
-                .body("name", is("morpheus"))
-                .body("job", is("zion resident"))
-                .body("updatedAt", is(notNullValue()));
-
-    }
-
-    @Test
-    @DisplayName("Test with DELETE method")
-    void checkApiEndpoint5() {
-
-        given()
-                .filter(withCustomTemplates())
-                .log().uri()
-                .when()
-                .delete(deleteApi)
-                .then()
-                .log().status()
+                .log().all()
                 .statusCode(204);
     }
+
+    @Test
+    void  createUserTest() {
+        String body = "{ \"name\": \"morpheus\", \"job\": \"leader\" }";
+
+        given()
+                .body(body)
+                .contentType(JSON)
+                .when()
+                .post("https://reqres.in/api/users")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .body("name", is("morpheus"))
+                .body("job", is("leader"));
+    }
+
 }

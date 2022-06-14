@@ -16,9 +16,6 @@ import static io.restassured.RestAssured.given;
 @Tag("demowebshop")
 public class DemowebshopTests extends TestBase {
 
-    //    static String login = "qaguru@qa.guru",
-//            password = "qaguru@qa.guru1",
-//            authCookieName = "NOPCOMMERCE.AUTH";
     static DataForWebShop dataUserwebshop = ConfigFactory.create(DataForWebShop.class);
     static String login = dataUserwebshop.login(),
             password = dataUserwebshop.password(),
