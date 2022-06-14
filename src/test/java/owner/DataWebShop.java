@@ -7,7 +7,7 @@ import org.aeonbits.owner.Config;
         "system:properties",
         "classpath:properties/datawebshop.properties"
 })
-public interface DataForWebShop extends Config  {
+public interface DataWebShop extends Config  {
     String login();
     String password();
     String authCookieName();

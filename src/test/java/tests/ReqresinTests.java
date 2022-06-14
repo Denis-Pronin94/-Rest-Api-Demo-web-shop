@@ -23,8 +23,6 @@ public class ReqresinTests {
                 .body("total_pages", is(2));
     }
 
-
-
     @Test
     void  registerUserTest() {
         String body = "{ \"email\": \"eve.holt@reqres.in\", \"password\": \"pistol\" }";
